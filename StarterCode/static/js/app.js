@@ -100,10 +100,12 @@ function constructOptions(data){
     var cityTable = data.map(city=> city.city);
     var uniqueCity = removeDuplicates(cityTable);
 
-    optionMenu.append("option").text("all").attr("selected","selected");
+    var option  = optionMenu.append("option");
+    option.text("all").attr("selected","selected");
+    option.attr("name","all");
     uniqueCity.forEach(city=> {
-        optionMenu.append("option").text(city).attr("value",city);
-    })
+        optionMenu.append("option").text(city).attr("name",city);
+    });
 }
 
 function outputTable(cityValue, data){
@@ -111,6 +113,9 @@ function outputTable(cityValue, data){
     if(cityValue=="all"){
         data.forEach(processTable);
     }else{
+        // when there is selection for cityValue change option all to unselected and change cityValue option to be selected
+        document.getElementsByName(cityValue)[0].setAttribute("selected","selected");
+        document.getElementsByName("all")[0].removeAttribute("selected");
         var finalData = data.filter(eachRow=> eachRow.city===cityValue);
         finalData.forEach(processTable);
     }
